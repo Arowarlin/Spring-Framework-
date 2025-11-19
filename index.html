@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Framework - Documentación Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6DB33F 0%, #2D5016 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6DB33F 0%, #2D5016 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .spring-logo {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .student-info {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .student-info p {
+            margin: 8px 0;
+            font-size: 1.2em;
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #6DB33F;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #6DB33F;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section h3 {
+            color: #2D5016;
+            font-size: 1.6em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            line-height: 2;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.05em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #6DB33F 0%, #5a9e33 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+
+        .feature-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: rgba(255,255,255,0.95);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 5px solid #6DB33F;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #6DB33F;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+        }
+
+        .code-block pre {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .annotation { color: #4ec9b0; }
+        .class-name { color: #4ec9b0; }
+
+        .demo-app {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border: 3px solid #6DB33F;
+        }
+
+        .demo-app h3 {
+            text-align: center;
+            color: #6DB33F;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab.active {
+            background: #6DB33F;
+            color: white;
+            transform: translateY(2px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2D5016;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #6DB33F;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6DB33F 0%, #5a9e33 100%);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+            box-shadow: 0 4px 10px rgba(109, 179, 63, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(109, 179, 63, 0.4);
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+        }
+
+        .students-list {
+            margin-top: 30px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .student-card:hover {
+            transform: translateX(5px);
+        }
+
+        .student-card .info {
+            flex-grow: 1;
+        }
+
+        .student-card .info strong {
+            color: #6DB33F;
+            font-size: 1.2em;
+        }
+
+        .student-card .info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .student-card button {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            padding: 10px 20px;
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        ul {
+            margin-left: 25px;
+            line-height: 2;
+        }
+
+        ul li {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+
+        ul li strong {
+            color: #6DB33F;
+        }
+
+        .architecture-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #6DB33F;
+            text-align: center;
+        }
+
+        .layer {
+            background: linear-gradient(135deg, #6DB33F 0%, #5a9e33 100%);
+            color: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .arrow-down {
+            font-size: 2em;
+            color: #6DB33F;
+            margin: 10px 0;
+        }
+
+        .json-viewer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #6DB33F;
+            margin: 20px 0;
+        }
+
+        .json-viewer pre {
+            color: #333;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight-box {
+            background: #e7f4e4;
+            border-left: 5px solid #6DB33F;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box h4 {
+            color: #2D5016;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="spring-logo">🍃</div>
+            <h1>Spring Framework</h1>
+            <p class="subtitle">Framework de Desarrollo Empresarial para Java</p>
+            <div class="student-info">
+                <p><strong>📚 Estudiante:</strong> Arowarlin Suarez</p>
+                <p><strong>🎓 Matrícula:</strong> 100679806</p>
+                <p><strong>🏛️ Universidad:</strong> UASD (Universidad Autónoma de Santo Domingo)</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>🌟 ¿Qué es Spring Framework?</h2>
+                <p>
+                    Spring Framework es un framework de código abierto para el desarrollo de aplicaciones Java empresariales. 
+                    Fue creado por Rod Johnson en 2003 como una alternativa más simple y ligera a los Enterprise JavaBeans (EJB). 
+                    Spring se ha convertido en el framework más popular para el desarrollo de aplicaciones Java debido a su 
+                    flexibilidad, modularidad y amplio ecosistema.
+                </p>
+                <p>
+                    Spring proporciona una infraestructura completa para desarrollar aplicaciones Java robustas, escalables y 
+                    fáciles de mantener. Su principal objetivo es simplificar el desarrollo empresarial de Java mediante la 
+                    promoción de buenas prácticas de programación como la inversión de control (IoC) y la programación orientada 
+                    a aspectos (AOP).
+                </p>
+
+                <div class="highlight-box">
+                    <h4>🎯 Filosofía de Spring</h4>
+                    <p>
+                        "Spring permite a los desarrolladores enfocarse en la lógica de negocio sin preocuparse por la 
+                        infraestructura técnica, proporcionando soluciones elegantes y probadas para problemas comunes 
+                        del desarrollo empresarial."
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔧 Funcionalidades Principales</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">💉</div>
+                        <h4>Inversión de Control (IoC)</h4>
+                        <p>Gestión automática de dependencias mediante contenedor IoC, permitiendo que Spring maneje la creación y vinculación de objetos.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🎯</div>
+                        <h4>Programación Orientada a Aspectos (AOP)</h4>
+                        <p>Separación de concerns transversales como logging, seguridad y transacciones del código de negocio principal.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🗄️</div>
+                        <h4>Spring Data Access</h4>
+                        <p>Abstracción completa para acceso a datos con soporte para JDBC, JPA, Hibernate, MongoDB y más bases de datos.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🌐</div>
+                        <h4>Spring MVC</h4>
+                        <p>Framework web robusto basado en el patrón MVC para crear aplicaciones web y APIs RESTful escalables.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🔒</div>
+                        <h4>Spring Security</h4>
+                        <p>Framework de seguridad potente y personalizable para autenticación, autorización y protección contra ataques.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">⚡</div>
+                        <h4>Spring Boot</h4>
+                        <p>Configuración rápida y convención sobre configuración para crear aplicaciones stand-alone listas para producción.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🏗️ Arquitectura de Spring</h2>
+                
+                <div class="architecture-diagram">
+                    <h3 style="color: #6DB33F; margin-bottom: 20px;">Capas de Spring Framework</h3>
+                    
+                    <div class="layer">Test - Módulo de Testing</div>
+                    <div class="arrow-down">↓</div>
+                    
+                    <div class="layer">Core Container (IoC, Beans, Context, SpEL)</div>
+                    <div class="arrow-down">↓</div>
+                    
+                    <div class="layer">AOP + Aspects</div>
+                    <div class="arrow-down">↓</div>
+                    
+                    <div class="layer">Data Access (JDBC, ORM, Transactions)</div>
+                    <div class="arrow-down">↓</div>
+                    
+                    <div class="layer">Web (MVC, WebSocket, Reactive)</div>
+                </div>
+
+                <h3>📦 Módulos de Spring</h3>
+                <ul>
+                    <li><strong>Spring Core:</strong> Proporciona las funcionalidades fundamentales del framework, incluyendo IoC y DI</li>
+                    <li><strong>Spring Context:</strong> Construido sobre Core, proporciona acceso a beans configurados</li>
+                    <li><strong>Spring AOP:</strong> Implementación de programación orientada a aspectos</li>
+                    <li><strong>Spring DAO:</strong> Capa de abstracción para acceso a datos</li>
+                    <li><strong>Spring ORM:</strong> Integración con frameworks ORM como Hibernate, JPA</li>
+                    <li><strong>Spring Web MVC:</strong> Framework MVC para aplicaciones web</li>
+                    <li><strong>Spring WebFlux:</strong> Framework reactivo para aplicaciones web asíncronas</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>💻 Ejemplos de Código</h2>
+
+                <h3>1. Inyección de Dependencias (DI)</h3>
+                <div class="code-block" data-lang="Java">
+<pre><span class="comment">// Clase de servicio</span>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class-name">StudentService</span> {
+    
+    <span class="keyword">private final</span> <span class="class-name">StudentRepository</span> studentRepository;
+    
+    <span class="comment">// Inyección por constructor (recomendado)</span>
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">public</span> <span class="class-name">StudentService</span>(<span class="class-name">StudentRepository</span> studentRepository) {
+        <span class="keyword">this</span>.studentRepository = studentRepository;
+    }
+    
+    <span class="keyword">public</span> <span class="class-name">Student</span> saveStudent(<span class="class-name">Student</span> student) {
+        <span class="keyword">return</span> studentRepository.save(student);
+    }
+    
+    <span class="keyword">public</span> <span class="class-name">List</span>&lt;<span class="class-name">Student</span>&gt; getAllStudents() {
+        <span class="keyword">return</span> studentRepository.findAll();
+    }
+}</pre>
+                </div>
+
+                <h3>2. Controlador REST con Spring MVC</h3>
+                <div class="code-block" data-lang="Java">
+<pre><span class="annotation">@RestController</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/api/students"</span>)
+<span class="keyword">public class</span> <span class="class-name">StudentController</span> {
+    
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class-name">StudentService</span> studentService;
+    
+    <span class="annotation">@GetMapping</span>
+    <span class="keyword">public</span> <span class="class-name">ResponseEntity</span>&lt;<span class="class-name">List</span>&lt;<span class="class-name">Student</span>&gt;&gt; getStudents() {
+        <span class="keyword">return</span> <span class="class-name">ResponseEntity</span>.ok(studentService.getAllStudents());
+    }
+    
+    <span class="annotation">@PostMapping</span>
+    <span class="keyword">public</span> <span class="class-name">ResponseEntity</span>&lt;<span class="class-name">Student</span>&gt; createStudent(<span class="annotation">@RequestBody</span> <span class="class-name">Student</span> student) {
+        <span class="class-name">Student</span> saved = studentService.saveStudent(student);
+        <span class="keyword">return</span> <span class="class-name">ResponseEntity</span>.status(<span class="class-name">HttpStatus</span>.CREATED).body(saved);
+    }
+    
+    <span class="annotation">@DeleteMapping</span>(<span class="string">"/{id}"</span>)
+    <span class="keyword">public</span> <span class="class-name">ResponseEntity</span>&lt;<span class="class-name">Void</span>&gt; deleteStudent(<span class="annotation">@PathVariable</span> <span class="class-name">Long</span> id) {
+        studentService.deleteStudent(id);
+        <span class="keyword">return</span> <span class="class-name">ResponseEntity</span>.noContent().build();
+    }
+}</pre>
+                </div>
+
+                <h3>3. Entidad JPA</h3>
+                <div class="code-block" data-lang="Java">
+<pre><span class="annotation">@Entity</span>
+<span class="annotation">@Table</span>(name = <span class="string">"students"</span>)
+<span class="keyword">public class</span> <span class="class-name">Student</span> {
+    
+    <span class="annotation">@Id</span>
+    <span class="annotation">@GeneratedValue</span>(strategy = <span class="class-name">GenerationType</span>.IDENTITY)
+    <span class="keyword">private</span> <span class="class-name">Long</span> id;
+    
+    <span class="annotation">@Column</span>(nullable = <span class="keyword">false</span>)
+    <span class="keyword">private</span> <span class="class-name">String</span> name;
+    
+    <span class="annotation">@Column</span>(unique = <span class="keyword">true</span>)
+    <span class="keyword">private</span> <span class="class-name">String</span> matricula;
+    
+    <span class="keyword">private</span> <span class="class-name">String</span> career;
+    
+    <span class="comment">// Getters y Setters</span>
+}</pre>
+                </div>
+
+                <h3>4. Configuración con Spring Boot</h3>
+                <div class="code-block" data-lang="Java">
+<pre><span class="annotation">@SpringBootApplication</span>
+<span class="keyword">public class</span> <span class="class-name">UasdApplication</span> {
+    
+    <span class="keyword">public static void</span> main(<span class="class-name">String</span>[] args) {
+        <span class="class-name">SpringApplication</span>.run(<span class="class-name">UasdApplication</span>.<span class="keyword">class</span>, args);
+    }
+    
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class-name">CommandLineRunner</span> demo(<span class="class-name">StudentRepository</span> repository) {
+        <span class="keyword">return</span> (args) -> {
+            repository.save(<span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Arowarlin Suarez"</span>, <span class="string">"100679806"</span>, <span class="string">"Ingeniería"</span>));
+        };
+    }
+}</pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🚀 Aplicación Demo: Sistema de Gestión UASD</h2>
+                <p>
+                    A continuación se presenta una simulación de una aplicación Spring que gestiona estudiantes de la UASD, 
+                    demostrando cómo funciona la comunicación entre componentes usando JSON para el intercambio de datos.
+                </p>
+
+                <div class="demo-app">
+                    <h3>🎓 Sistema de Gestión de Estudiantes UASD con Spring</h3>
+                    
+                    <div class="tabs">
+                        <button class="tab active" onclick="switchTab('form')">📝 Registro</button>
+                        <button class="tab" onclick="switchTab('list')">📋 Lista de Estudiantes</button>
+                        <button class="tab" onclick="switchTab('json')">{ } JSON API</button>
+                    </div>
+
+                    <div id="form-content" class="tab-content active">
+                        <div class="form-group">
+                            <label for="studentName">Nombre Completo:</label>
+                            <input type="text" id="studentName" placeholder="Ej: Juan Pérez">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentMatricula">Matrícula:</label>
+                            <input type="text" id="studentMatricula" placeholder="Ej: 100123456">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentCareer">Carrera:</label>
+                            <select id="studentCareer">
+                                <option value="">Selecciona una carrera</option>
+                                <option value="Ingeniería en Sistemas">Ingeniería en Sistemas</option>
+                                <option value="Medicina">Medicina</option>
+                                <option value="Derecho">Derecho</option>
+                                <option value="Arquitectura">Arquitectura</option>
+                                <option value="Contabilidad">Contabilidad</option>
+                                <option value="Administración">Administración</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentEmail">Email:</label>
+                            <input type="email" id="studentEmail" placeholder="estudiante@uasd.edu.do">
+                        </div>
+                        
+                        <button onclick="springApp.addStudent()">➕ Agregar Estudiante</button>
+                        <button class="secondary" onclick="springApp.clearForm()">🗑️ Limpiar</button>
+                    </div>
+
+                    <div id="list-content" class="tab-content">
+                        <div class="students-list" id="studentsList"></div>
+                    </div>
+
+                    <div id="json-content" class="tab-content">
+                        <h4 style="color: #2D5016; margin-bottom: 15px;">📡 Simulación de API REST</h4>
+                        <p style="color: #666;">Endpoint: <code>GET /api/students</code></p>
+                        <div class="json-viewer">
+                            <pre id="jsonOutput"></pre>
+                        </div>
+                        <button onclick="springApp.refreshJSON()">🔄 Actualizar JSON</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 Flujo de Funcionamiento en Spring</h2>
+                <ol style="line-height: 2; font-size: 1.05em;">
+                    <li><strong>Cliente envía petición HTTP:</strong> El navegador envía una petición POST a /api/students</li>
+                    <li><strong>DispatcherServlet recibe la petición:</strong> El servlet frontal de Spring procesa la solicitud</li>
+                    <li><strong>HandlerMapping identifica el controlador:</strong> Spring encuentra el método apropiado en StudentController</li>
+                    <li><strong>Controlador llama al Service:</strong> StudentController invoca StudentService</li>
+                    <li><strong>Service aplica lógica de negocio:</strong> Valida datos y llama al Repository</li>
+                    <li><strong>Repository accede a la BD:</strong> Spring Data JPA ejecuta las operaciones en la base de datos</li>
+                    <li><strong>Respuesta JSON:</strong> Spring convierte objetos Java a JSON y retorna al cliente</li>
+                </ol>
+
+                <div class="highlight-box">
+                    <h4>🔍 Beneficios del Flujo Spring</h4>
+                    <p>
+                        Spring maneja automáticamente la conversión JSON, inyección de dependencias, transacciones, 
+                        validaciones y excepciones, permitiendo al desarrollador enfocarse únicamente en la lógica de negocio.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>✨ Ventajas de Spring Framework</h2>
+                <ul>
+                    <li><strong>Modularidad:</strong> Usa solo los módulos que necesitas</li>
+                    <li><strong>Testabilidad:</strong> DI facilita las pruebas unitarias</li>
+                    <li><strong>Flexibilidad:</strong> No impone restricciones de arquitectura</li>
+                    <li><strong>Integración:</strong> Se integra fácilmente con otras tecnologías</li>
+                    <li><strong>Comunidad activa:</strong> Gran soporte y documentación</li>
+                    <li><strong>Productividad:</strong> Reduce código boilerplate significativamente</li>
+                    <li><strong>Seguridad:</strong> Spring Security proporciona protección robusta</li>
+                    <li><strong>Escalabilidad:</strong> Soporta aplicaciones de cualquier tamaño</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>🎯 Casos de Uso Comunes</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">🛒</div>
+                        <h4>E-Commerce</h4>
+                        <p>Plataformas de comercio electrónico con gestión de inventario, pagos y usuarios.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🏦</div>
+                        <h4>Sistemas Bancarios</h4>
+                        <p>Aplicaciones financieras con transacciones seguras y procesamiento en tiempo real.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">📱</div>
+                        <h4>APIs REST</h4>
+                        <p>Backend para aplicaciones móviles y servicios web modernos.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🏥</div>
+                        <h4>Sistemas de Salud</h4>
+                        <p>Gestión de pacientes, citas médicas y registros electrónicos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        class SpringApp {
+            constructor() {
+                this.students = [
+                    {
+                        id: 1,
+                        name: 'Arowarlin Suarez',
+                        matricula: '100679806',
+                        career: 'Ingeniería en Sistemas',
+                        email: 'arowarlin.suarez@uasd.edu.do',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                this.nextId = 2;
+                this.init();
+            }
+
+            init() {
+                this.renderStudents();
+                this.refreshJSON();
+            }
+
+            
+            addStudent() {
+                const name = document.getElementById('studentName').value.trim();
+                const matricula = document.getElementById('studentMatricula').value.trim();
+                const career = document.getElementById('studentCareer').value;
+                const email = document.getElementById('studentEmail').value.trim();
+
+                
+                if (!name || !matricula || !career || !email) {
+                    this.showAlert('❌ Error: Todos los campos son obligatorios', 'error');
+                    return;
+                }
+
+                if (!this.validateEmail(email)) {
+                    this.showAlert('❌ Error: Email inválido', 'error');
+                    return;
+                }
+
+                
+                const student = {
+                    id: this.nextId++,
+                    name: name,
+                    matricula: matricula,
+                    career: career,
+                    email: email,
+                    createdAt: new Date().toISOString()
+                };
+
+               
+                this.students.push(student);
+
+                
+                this.renderStudents();
+                this.refreshJSON();
+                this.clearForm();
+
+                this.showAlert('✅ Estudiante agregado exitosamente (Spring Service ejecutado)', 'success');
+                
+                
+                console.log('[Spring Service] Student created:', student);
+            }
+
+            
+            deleteStudent(id) {
+                const index = this.students.findIndex(s => s.id === id);
+                
+                if (index !== -1) {
+                    const deleted = this.students.splice(index, 1)[0];
+                    this.renderStudents();
+                    this.refreshJSON();
+                    this.showAlert('✅ Estudiante eliminado (Spring Service ejecutado)', 'success');
+                    console.log('[Spring Service] Student deleted:', deleted);
+                }
+            }
+
+           
+            getStudentsJSON() {
+                return {
+                    status: 'success',
+                    timestamp: new Date().toISOString(),
+                    data: this.students,
+                    total: this.students.length,
+                    message: 'Students retrieved successfully'
+                };
+            }
+
+            
+            renderStudents() {
+                const container = document.getElementById('studentsList');
+                
+                if (this.students.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #999;">
+                            <div style="font-size: 3em; margin-bottom: 15px;">📚</div>
+                            <p>No hay estudiantes registrados en el sistema</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.students.map(student => `
+                    <div class="student-card">
+                        <div class="info">
+                            <strong>${student.name}</strong>
+                            <p>📋 Matrícula: ${student.matricula}</p>
+                            <p>🎓 Carrera: ${student.career}</p>
+                            <p>📧 Email: ${student.email}</p>
+                            <p style="font-size: 0.85em; color: #999;">
+                                🕒 Registrado: ${new Date(student.createdAt).toLocaleString('es-DO')}
+                            </p>
+                        </div>
+                        <button onclick="springApp.deleteStudent(${student.id})">🗑️ Eliminar</button>
+                    </div>
+                `).join('');
+            }
+
+            
+            refreshJSON() {
+                const jsonOutput = document.getElementById('jsonOutput');
+                const response = this.getStudentsJSON();
+                jsonOutput.textContent = JSON.stringify(response, null, 2);
+            }
+
+            clearForm() {
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentMatricula').value = '';
+                document.getElementById('studentCareer').value = '';
+                document.getElementById('studentEmail').value = '';
+            }
+
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            showAlert(message, type) {
+               
+                const icon = type === 'success' ? '✅' : '❌';
+                alert(`${icon} ${message}`);
+            }
+        }
+
+       
+        function switchTab(tabName) {
+           
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            
+            document.getElementById(`${tabName}-content`).classList.add('active');
+            event.target.classList.add('active');
+
+            
+            if (tabName === 'json') {
+                springApp.refreshJSON();
+            }
+        }
+
+        
+        let springApp;
+        document.addEventListener('DOMContentLoaded', () => {
+            springApp = new SpringApp();
+            console.log('%c🍃 Spring Application Started', 'color: #6DB33F; font-size: 16px; font-weight: bold;');
+            console.log('%cSimulación de Spring Framework en acción', 'color: #666; font-size: 12px;');
+        });
+    </script>
+</body>
+</html>
